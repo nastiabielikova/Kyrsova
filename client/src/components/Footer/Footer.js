@@ -25,13 +25,13 @@ const Footer = () => {
               всій Україні.
             </p>
             <div className="social-links">
-              <a href="#" className="social-link" aria-label="Facebook">
+              <a href="https://facebook.com" className="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                 <FaFacebook />
               </a>
-              <a href="#" className="social-link" aria-label="Instagram">
+              <a href="https://instagram.com" className="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                 <FaInstagram />
               </a>
-              <a href="#" className="social-link" aria-label="Twitter">
+              <a href="https://twitter.com" className="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
                 <FaTwitter />
               </a>
             </div>

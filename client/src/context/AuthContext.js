@@ -1,10 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile,
 } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { authAPI, usersAPI } from "../services/api";
@@ -38,8 +36,8 @@ export const AuthProvider = ({ children }) => {
   // Реєстрація нового користувача
   const register = async (email, password, displayName, phoneNumber) => {
     try {
-      // Реєструємо на сервері (сервер創建 користувача в Firebase)
-      const registerResponse = await authAPI.register({
+      // Реєструємо на сервері (сервер створює користувача в Firebase)
+      await authAPI.register({
         email,
         password,
         displayName,
