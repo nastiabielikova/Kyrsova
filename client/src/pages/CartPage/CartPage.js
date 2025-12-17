@@ -73,7 +73,7 @@ const CartPage = () => {
         quantity: item.quantity,
       }));
 
-      const response = await ordersAPI.create({
+      await ordersAPI.create({
         items,
         deliveryAddress: orderData.deliveryAddress,
         phoneNumber: orderData.phoneNumber,

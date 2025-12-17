@@ -9,7 +9,6 @@ import {
   FaEdit,
   FaSave,
 } from "react-icons/fa";
-import { toast } from "react-toastify";
 import "./ProfilePage.css";
 
 const ProfilePage = () => {

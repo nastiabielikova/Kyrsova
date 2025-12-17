@@ -33,6 +33,7 @@ const MedicinesPage = () => {
   // Фільтрація медикаментів
   useEffect(() => {
     filterMedicines();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedCategory, inStockOnly, medicines]);
 
   const loadMedicines = async () => {

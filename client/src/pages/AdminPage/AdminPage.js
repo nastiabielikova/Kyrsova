@@ -67,6 +67,7 @@ const AdminPage = () => {
       return;
     }
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin, navigate, activeTab]);
 
   const loadData = async () => {
