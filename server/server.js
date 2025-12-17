@@ -55,10 +55,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Запуск сервера
-app.listen(PORT, () => {
-  console.log(`🚀 Сервер запущено на порту ${PORT}`);
-  console.log(`📍 http://localhost:${PORT}`);
-});
+// Запуск сервера (тільки в development/локально)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Сервер запущено на порту ${PORT}`);
+    console.log(`📍 http://localhost:${PORT}`);
+  });
+}
 
 module.exports = app;
