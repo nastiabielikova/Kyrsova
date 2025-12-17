@@ -128,19 +128,32 @@ export const AuthProvider = ({ children }) => {
 
   // Відстеження стану автентифікації
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
+    try {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        setCurrentUser(user);
 
-      if (user) {
-        await loadUserProfile();
-      } else {
-        setUserProfile(null);
-      }
+        if (user) {
+          await loadUserProfile();
+        } else {
+          setUserProfile(null);
+        }
 
+        setLoading(false);
+      });
+
+      // Таймаут: якщо Firebase не відповідає протягом 3 сек, вважаємо завантаження завершеним
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeout);
+        unsubscribe();
+      };
+    } catch (error) {
+      console.error("Firebase error:", error);
       setLoading(false);
-    });
-
-    return unsubscribe;
+    }
   }, []);
 
   const value = {
@@ -155,7 +168,20 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "18px",
+          color: "#666",
+        }}>
+          Завантаження...
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };
