@@ -1,0 +1,129 @@
+flowchart LR
+    %% IDEF0-style emulation using Mermaid flowchart
+    %% Top-level A0 Context Box
+    subgraph A0["A0: Функція системи - Управління аптечною системою"]
+        direction TB
+        A0_Box(("A0: Управління аптечною системою\nOutputs: Orders, Confirmations, Reports\nInputs: Product Data, User Inputs, Payments\nControls: Policies, Business Rules, Tax rules\nMechanisms: React Frontend, Express Backend, Firebase, Payment Gateway"))
+    end
+
+    %% Decomposition / Level 1 Functions (A1...A6)
+    subgraph ChildFunctions["Level 1: Основні функції (A1..A6)"]
+        direction TB
+        A1(["A1: Управління каталогом\n(Inputs: New/Updated Product Data)\nControls: Categories/Policies\nMechanisms: Admin UI, Firestore\nOutputs: Product Listings, Updated Inventory"]) 
+        A2(["A2: Аутентифікація та профіль\n(Inputs: Login/Register Data)\nControls: Auth policies\nMechanisms: Firebase Auth\nOutputs: Auth Tokens, User Profiles"]) 
+        A3(["A3: Кошик та оформлення\n(Inputs: Cart Items, Address, Payment Info)\nControls: Stock/Payment Rules\nMechanisms: Frontend, Backend, Payment Gateway\nOutputs: Payment Transactions, Checkout Requests"]) 
+        A4(["A4: Обробка замовлень\n(Inputs: Checkout Requests)\nControls: Order Policies\nMechanisms: Backend, Firestore\nOutputs: Orders, Status Updates, Emails"]) 
+        A5(["A5: Керування інвентарем\n(Inputs: Orders, Incoming stocks)\nControls: Inventory rules\nMechanisms: Admin Tools, Firestore\nOutputs: Inventory Updates, Restock Alerts"]) 
+        A6(["A6: Повідомлення та звітність\n(Inputs: Orders, User actions)\nControls: Notification templates\nMechanisms: Email Service, Firestore\nOutputs: Emails, Admin Reports"]) 
+    end
+
+    %% Inputs (On left) / Controls (top) / Outputs (right) / Mechanisms (bottom)
+    subgraph Inputs["Inputs"]
+      PD(["Product Data"]) 
+      UI(["User Inputs (search, cart, address)"])
+      PI(["Payment Info"]) 
+      AdminInput(["Admin Inputs (CRUD)"])
+    end
+
+    subgraph Controls["Controls"]
+      Policies(["Business Rules / Policies / Tax rules"]) 
+      StockRules(["Inventory rules / Stock thresholds"]) 
+      AuthPolicies(["Auth Policies & Roles"]) 
+    end
+
+    subgraph Mechanisms["Mechanisms"]
+      FE(["React Frontend"])
+      BE(["Express Backend (Node.js)"]) 
+      FS(["Firebase (Auth, Firestore)"]) 
+      PAYMENT(["Payment Gateway"])
+      EMAIL(["Email Service"])
+      ADMIN_UI(["Admin UI / Tools"])
+    end
+
+    subgraph Outputs["Outputs"]
+      ORD(["Orders"]) 
+      CONF(["Order Confirmations / Emails"]) 
+      REPORT(["Reports / Analytics"]) 
+    end
+
+    %% Map Inputs -> Functions
+    PD --> A1
+    UI --> A3
+    PI --> A3
+    AdminInput --> A1
+
+    %% Map Controls -> Functions (control arrows point from Controls to processes)
+    Policies --> A1
+    Policies --> A3
+    StockRules --> A5
+    AuthPolicies --> A2
+
+    %% Map Mechanisms -> Functions
+    FE --> A1
+    FE --> A3
+    BE --> A3
+    BE --> A4
+    FS --> A2
+    FS --> A4
+    PAYMENT --> A3
+    EMAIL --> A4
+    ADMIN_UI --> A1
+    ADMIN_UI --> A5
+
+    %% Map Functions -> Outputs
+    A3 --> ORD
+    A4 --> CONF
+    A4 --> REPORT
+    A5 --> REPORT
+
+    %% Some internal data flows (e.g., order creation affects inventory)
+    A4 --> A5
+    A1 --> A3
+
+    %% Style nodes to look more like IDEF0 (boxes + labels)
+    classDef idefBox fill:#fff3e0,stroke:#bf360c,stroke-width:1px;
+    classDef inputBox fill:#e7f6ff,stroke:#0288d1,stroke-width:1px;
+    classDef controlBox fill:#fffde7,stroke:#fdd835,stroke-width:1px;
+    classDef mechBox fill:#f1f8e9,stroke:#2e7d32,stroke-width:1px;
+    classDef outputBox fill:#f3e5f5,stroke:#6a1b9a,stroke-width:1px;
+
+    class A0_Box idefBox
+    class A1,A2,A3,A4,A5,A6 idefBox
+    class PD,UI,PI,AdminInput inputBox
+    class Policies,StockRules,AuthPolicies controlBox
+    class FE,BE,FS,PAYMENT,EMAIL,ADMIN_UI mechBox
+    class ORD,CONF,REPORT outputBox
+
+    %% layout hints
+    %% keep Inputs on left, Controls top, Mechanisms bottom, Outputs right
+    PD -.-> A1
+    UI -.-> A3
+    PI -.-> A3
+    AdminInput -.-> A1
+
+    Policies -.-> A1
+    Policies -.-> A3
+    StockRules -.-> A5
+    AuthPolicies -.-> A2
+
+    FE -.-> A1
+    FE -.-> A3
+    BE -.-> A3
+    BE -.-> A4
+    FS -.-> A2
+    FS -.-> A4
+    PAYMENT -.-> A3
+    EMAIL -.-> A4
+    ADMIN_UI -.-> A1
+    ADMIN_UI -.-> A5
+
+    A3 -.-> ORD
+    A4 -.-> CONF
+    A4 -.-> REPORT
+    A5 -.-> REPORT
+
+    A4 -.-> A5
+    A1 -.-> A3
+
+    %% hide the arrows that are duplicates to reduce clutter
+    linkStyle default interpolate basis

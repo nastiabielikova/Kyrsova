@@ -1,0 +1,157 @@
+graph TB
+    %% Actors
+    Customer["👤 Клієнт"]
+    Admin["👤 Адміністратор"]
+    System["⚙️ Система"]
+    Firebase["☁️ Firebase"]
+
+    %% Customer Use Cases
+    Register["📋 Реєстрація"]
+    Login["🔐 Вхід в систему"]
+    ViewMedicines["👁️ Переглядання медикаментів"]
+    SearchMedicines["🔍 Пошук медикаментів"]
+    FilterMedicines["🎯 Фільтрація медикаментів"]
+    ViewMedicineDetails["📊 Перегляд деталей медикаменту"]
+    AddToCart["🛒 Додавання в кошик"]
+    ViewCart["👁️ Перегляд кошика"]
+    UpdateCart["✏️ Редагування кошика"]
+    Checkout["💳 Оформлення замовлення"]
+    ViewOrders["📋 Перегляд замовлень"]
+    TrackOrder["📍 Відслідження замовлення"]
+    ViewProfile["👤 Перегляд профілю"]
+    UpdateProfile["✏️ Редагування профілю"]
+    ChangePassword["🔑 Зміна пароля"]
+    Logout["🚪 Вихід з системи"]
+
+    %% Admin Use Cases
+    ManageMedicines["🏥 Керування медикаментами"]
+    AddMedicine["➕ Додавання медикаменту"]
+    EditMedicine["✏️ Редагування медикаменту"]
+    DeleteMedicine["🗑️ Видалення медикаменту"]
+    ViewAllOrders["📋 Перегляд всіх замовлень"]
+    UpdateOrderStatus["🔄 Оновлення статусу замовлення"]
+    ViewUsers["👥 Перегляд користувачів"]
+    ViewStatistics["📊 Перегляд статистики"]
+    ManageInventory["📦 Керування інвентарем"]
+
+    %% System interactions
+    Auth["🔐 Аутентифікація"]
+    ValidateEmail["✓ Перевірка email"]
+    ValidatePassword["✓ Перевірка пароля"]
+    SaveUserData["💾 Збереження даних користувача"]
+    SendEmail["📧 Відправка email"]
+    ProcessPayment["💰 Обробка платежу"]
+    CreateOrder["📝 Створення замовлення"]
+    UpdateInventory["📦 Оновлення інвентарю"]
+
+    %% Relationships
+    Customer --> Register
+    Customer --> Login
+    Customer --> ViewMedicines
+    Customer --> SearchMedicines
+    Customer --> FilterMedicines
+    Customer --> ViewMedicineDetails
+    Customer --> AddToCart
+    Customer --> ViewCart
+    Customer --> UpdateCart
+    Customer --> Checkout
+    Customer --> ViewOrders
+    Customer --> TrackOrder
+    Customer --> ViewProfile
+    Customer --> UpdateProfile
+    Customer --> ChangePassword
+    Customer --> Logout
+
+    Admin --> Login
+    Admin --> ManageMedicines
+    Admin --> ViewAllOrders
+    Admin --> UpdateOrderStatus
+    Admin --> ViewUsers
+    Admin --> ViewStatistics
+    Admin --> ManageInventory
+    Admin --> Logout
+
+    %% Include relationships
+    Register -.->|extends| Auth
+    Login -.->|extends| Auth
+    Logout -.->|extends| Auth
+    
+    ViewMedicines -.->|extends| SearchMedicines
+    SearchMedicines -.->|extends| FilterMedicines
+    ViewMedicineDetails -.->|extends| ViewMedicines
+
+    AddToCart -.->|extends| ViewCart
+    UpdateCart -.->|extends| ViewCart
+    Checkout -.->|extends| ViewCart
+
+    ManageMedicines -.->|includes| AddMedicine
+    ManageMedicines -.->|includes| EditMedicine
+    ManageMedicines -.->|includes| DeleteMedicine
+
+    ViewAllOrders -.->|includes| UpdateOrderStatus
+    UpdateOrderStatus -.->|extends| CreateOrder
+
+    %% System interactions
+    Register --> ValidateEmail
+    Register --> ValidatePassword
+    Register --> SaveUserData
+    Register --> SendEmail
+
+    Login --> ValidateEmail
+    Login --> ValidatePassword
+    Login --> Auth
+
+    Checkout --> ProcessPayment
+    Checkout --> CreateOrder
+    Checkout --> UpdateInventory
+    CreateOrder --> SaveUserData
+    CreateOrder --> SendEmail
+
+    UpdateProfile --> SaveUserData
+    ChangePassword --> ValidatePassword
+    ChangePassword --> SaveUserData
+
+    Auth --> Firebase
+    SaveUserData --> Firebase
+    ValidateEmail --> System
+    ValidatePassword --> System
+    ProcessPayment --> System
+    UpdateInventory --> Firebase
+    SendEmail --> System
+
+    style Customer fill:#e1f5ff
+    style Admin fill:#fff3e0
+    style System fill:#f3e5f5
+    style Firebase fill:#e8f5e9
+    
+    style Register fill:#c8e6c9
+    style Login fill:#c8e6c9
+    style Logout fill:#ffccbc
+    
+    style ViewMedicines fill:#bbdefb
+    style SearchMedicines fill:#bbdefb
+    style FilterMedicines fill:#bbdefb
+    style ViewMedicineDetails fill:#bbdefb
+    
+    style AddToCart fill:#fff9c4
+    style ViewCart fill:#fff9c4
+    style UpdateCart fill:#fff9c4
+    style Checkout fill:#ffccbc
+    
+    style ViewOrders fill:#b2dfdb
+    style TrackOrder fill:#b2dfdb
+    
+    style ViewProfile fill:#ffe0b2
+    style UpdateProfile fill:#ffe0b2
+    style ChangePassword fill:#ffe0b2
+    
+    style ManageMedicines fill:#f8bbd0
+    style AddMedicine fill:#f8bbd0
+    style EditMedicine fill:#f8bbd0
+    style DeleteMedicine fill:#f8bbd0
+    
+    style ViewAllOrders fill:#f8bbd0
+    style UpdateOrderStatus fill:#f8bbd0
+    style ViewUsers fill:#f8bbd0
+    style ViewStatistics fill:#f8bbd0
+    style ManageInventory fill:#f8bbd0

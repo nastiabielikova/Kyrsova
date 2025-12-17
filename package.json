@@ -1,0 +1,22 @@
+{
+  "name": "apteka-system",
+  "version": "1.0.0",
+  "description": "Система управління аптекою з React та Node.js",
+  "scripts": {
+    "server": "cd server && node server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "аптека",
+    "pharmacy",
+    "react",
+    "node",
+    "firebase"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

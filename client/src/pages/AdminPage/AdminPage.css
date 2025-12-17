@@ -1,0 +1,443 @@
+.admin-page {
+  padding: var(--spacing-2xl) 0;
+  min-height: calc(100vh - 200px);
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.admin-header h1 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-sm);
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.admin-header p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+/* Вкладки */
+.admin-tabs {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  background: var(--surface);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px var(--shadow);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.tab-btn:hover {
+  background: rgba(0, 137, 123, 0.05);
+  color: var(--primary-color);
+}
+
+.tab-btn.active {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 137, 123, 0.3);
+}
+
+.tab-btn svg {
+  font-size: 20px;
+}
+
+.tab-count {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.tab-btn.active .tab-count {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Контент */
+.admin-content {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+/* Таблиця */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.admin-table thead {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 137, 123, 0.1),
+    rgba(38, 166, 154, 0.1)
+  );
+}
+
+.admin-table th {
+  padding: var(--spacing-md);
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(0, 137, 123, 0.03);
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Дії в таблиці */
+.table-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 16px;
+}
+
+.btn-edit {
+  background: rgba(3, 155, 229, 0.1);
+  color: var(--info-color);
+}
+
+.btn-edit:hover {
+  background: var(--info-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+.btn-delete {
+  background: rgba(229, 57, 53, 0.1);
+  color: var(--danger-color);
+}
+
+.btn-delete:hover {
+  background: var(--danger-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Селекти */
+.status-select,
+.role-select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  background: white;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.status-select:focus,
+.role-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Модальне вікно */
+.modal {
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.modal-close:hover {
+  background: var(--danger-color);
+  color: white;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Деталі замовлення */
+.order-details-modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.order-details-row {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  font-size: var(--font-size-sm);
+}
+
+.order-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.order-total-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  font-weight: 700;
+  font-size: var(--font-size-base);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.modal-actions .btn {
+  flex: 1;
+}
+
+/* Утиліти */
+.text-success {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.text-danger {
+  color: var(--danger-color);
+  font-weight: 600;
+}
+
+.ml-sm {
+  margin-left: var(--spacing-sm);
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .admin-tabs {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .section-header .btn {
+    width: 100%;
+  }
+
+  .table-container {
+    font-size: var(--font-size-sm);
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: var(--spacing-sm);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+}
+
+/* Instruction upload styles */
+.instruction-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.instruction-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.upload-instruction {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-icon.btn-upload {
+  background: var(--primary-color);
+  color: white;
+  cursor: pointer;
+}
+
+.btn-icon.btn-upload:hover {
+  background: var(--primary-dark);
+}
+
+.btn-icon.btn-view {
+  background: #3498db;
+  color: white;
+}
+
+.btn-icon.btn-view:hover {
+  background: #2980b9;
+}
+
+.btn-icon.btn-check {
+  background: var(--success-color);
+  color: white;
+}
+
+.btn-icon.btn-check:hover {
+  background: #27ae60;
+}
+
+.btn-icon.btn-check:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Large modal for pharmacy form */
+.modal.large-modal {
+  max-width: 700px;
+  width: 90%;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}

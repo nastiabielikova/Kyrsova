@@ -1,0 +1,118 @@
+.auth-page {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl) 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 137, 123, 0.05),
+    rgba(38, 166, 154, 0.05)
+  );
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 var(--spacing-lg);
+}
+
+.auth-card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  box-shadow: 0 8px 32px var(--shadow);
+  animation: fadeIn 0.5s ease;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.auth-header h1 {
+  font-size: var(--font-size-2xl);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-header p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  margin: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-label svg {
+  color: var(--primary-color);
+}
+
+.form-input.error {
+  border-color: var(--danger-color);
+}
+
+.form-input.error:focus {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.auth-footer {
+  margin-top: var(--spacing-xl);
+  text-align: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.auth-footer p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.auth-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.auth-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: var(--spacing-xl);
+  }
+
+  .auth-header h1 {
+    font-size: var(--font-size-xl);
+  }
+}

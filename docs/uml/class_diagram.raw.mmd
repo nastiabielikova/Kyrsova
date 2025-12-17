@@ -1,0 +1,348 @@
+classDiagram
+    %% Frontend Components
+    class App {
+        -routes: Routes[]
+        +render(): ReactNode
+    }
+
+    class Header {
+        -user: User
+        +render(): ReactNode
+        +handleLogout(): void
+        +handleNavigation(): void
+    }
+
+    class Footer {
+        -companyInfo: CompanyInfo
+        +render(): ReactNode
+    }
+
+    class HomePage {
+        -medicines: Medicine[]
+        -loading: boolean
+        +render(): ReactNode
+        +loadMedicines(): Promise~void~
+    }
+
+    class MedicinesPage {
+        -medicines: Medicine[]
+        -filters: Filter[]
+        -search: string
+        +render(): ReactNode
+        +applyFilters(): void
+        +search(query: string): void
+        +addToCart(medicine: Medicine): void
+    }
+
+    class LoginPage {
+        -email: string
+        -password: string
+        +render(): ReactNode
+        +handleLogin(): Promise~void~
+        +handleRegisterRedirect(): void
+    }
+
+    class RegisterPage {
+        -formData: RegistrationData
+        +render(): ReactNode
+        +handleRegister(): Promise~void~
+        +validateForm(): boolean
+    }
+
+    class CartPage {
+        -items: CartItem[]
+        -total: number
+        +render(): ReactNode
+        +removeItem(id: string): void
+        +updateQuantity(id: string, qty: number): void
+        +checkout(): Promise~void~
+    }
+
+    class OrdersPage {
+        -orders: Order[]
+        -filters: Filter[]
+        +render(): ReactNode
+        +loadOrders(): Promise~void~
+        +applyFilters(): void
+        +getOrderDetails(orderId: string): void
+    }
+
+    class ProfilePage {
+        -user: User
+        -userProfile: UserProfile
+        +render(): ReactNode
+        +updateProfile(data: UserProfile): Promise~void~
+        +changePassword(oldPassword: string, newPassword: string): Promise~void~
+    }
+
+    class AdminPage {
+        -medicines: Medicine[]
+        -users: User[]
+        -orders: Order[]
+        +render(): ReactNode
+        +addMedicine(data: Medicine): Promise~void~
+        +editMedicine(id: string, data: Medicine): Promise~void~
+        +deleteMedicine(id: string): Promise~void~
+        +viewUserStatistics(): void
+        +manageOrders(): void
+    }
+
+    %% Context and State Management
+    class AuthContext {
+        -currentUser: User
+        -userProfile: UserProfile
+        -loading: boolean
+        +register(email: string, password: string, displayName: string): Promise~User~
+        +login(email: string, password: string): Promise~User~
+        +logout(): Promise~void~
+        +updateUserProfile(data: UserProfile): Promise~void~
+    }
+
+    class CartContext {
+        -cartItems: CartItem[]
+        +addToCart(medicine: Medicine, quantity: number): void
+        +removeFromCart(medicineId: string): void
+        +updateQuantity(medicineId: string, quantity: number): void
+        +clearCart(): void
+        +getTotalPrice(): number
+    }
+
+    %% Models and Data Classes
+    class User {
+        -uid: string
+        -email: string
+        -displayName: string
+        -phoneNumber: string
+        -role: string
+        -createdAt: Date
+    }
+
+    class UserProfile {
+        -userId: string
+        -firstName: string
+        -lastName: string
+        -phoneNumber: string
+        -address: Address
+        -dateOfBirth: Date
+        -updatedAt: Date
+    }
+
+    class Medicine {
+        -id: string
+        -name: string
+        -description: string
+        -price: number
+        -quantity: number
+        -category: string
+        -manufacturer: string
+        -expiryDate: Date
+        -image: string
+        -createdAt: Date
+    }
+
+    class CartItem {
+        -id: string
+        -medicineId: string
+        -medicineName: string
+        -price: number
+        -quantity: number
+        -image: string
+    }
+
+    class Order {
+        -id: string
+        -userId: string
+        -items: OrderItem[]
+        -totalPrice: number
+        -status: string
+        -deliveryAddress: Address
+        -createdAt: Date
+        -updatedAt: Date
+    }
+
+    class OrderItem {
+        -medicineId: string
+        -medicineName: string
+        -quantity: number
+        -price: number
+    }
+
+    class Address {
+        -street: string
+        -city: string
+        -state: string
+        -zipCode: string
+        -country: string
+    }
+
+    %% Services and APIs
+    class AuthService {
+        +register(email: string, password: string): Promise~User~
+        +login(email: string, password: string): Promise~User~
+        +logout(): Promise~void~
+        +getCurrentUser(): User
+        +updateUserProfile(data: any): Promise~void~
+    }
+
+    class MedicinesAPI {
+        +getAll(params: any): Promise~Medicine[]~
+        +getById(id: string): Promise~Medicine~
+        +create(data: Medicine): Promise~Medicine~
+        +update(id: string, data: Medicine): Promise~Medicine~
+        +delete(id: string): Promise~void~
+        +getCategories(): Promise~string[]~
+    }
+
+    class OrdersAPI {
+        +getAll(): Promise~Order[]~
+        +getById(id: string): Promise~Order~
+        +create(data: Order): Promise~Order~
+        +update(id: string, data: Order): Promise~Order~
+        +cancel(id: string): Promise~void~
+    }
+
+    class UsersAPI {
+        +getProfile(): Promise~UserProfile~
+        +updateProfile(data: UserProfile): Promise~UserProfile~
+        +getAllUsers(): Promise~User[]~
+        +getUserById(id: string): Promise~User~
+    }
+
+    %% Server Components
+    class ExpressServer {
+        -app: Express
+        -port: number
+        -routes: Routes[]
+        +start(): void
+        +setupMiddleware(): void
+        +setupRoutes(): void
+    }
+
+    class AuthMiddleware {
+        +verify(req: any, res: any, next: any): void
+        +isAdmin(req: any, res: any, next: any): void
+    }
+
+    class MedicinesRoute {
+        +GET /medicines: Promise~Medicine[]~
+        +GET /medicines/:id: Promise~Medicine~
+        +POST /medicines: Promise~Medicine~
+        +PUT /medicines/:id: Promise~Medicine~
+        +DELETE /medicines/:id: Promise~void~
+    }
+
+    class OrdersRoute {
+        +GET /orders: Promise~Order[]~
+        +GET /orders/:id: Promise~Order~
+        +POST /orders: Promise~Order~
+        +PUT /orders/:id: Promise~Order~
+        +DELETE /orders/:id: Promise~void~
+    }
+
+    class AuthRoute {
+        +POST /register: Promise~User~
+        +POST /login: Promise~User~
+        +POST /logout: Promise~void~
+    }
+
+    class UsersRoute {
+        +GET /profile: Promise~UserProfile~
+        +PUT /profile: Promise~UserProfile~
+        +GET /users: Promise~User[]~
+    }
+
+    %% Firebase
+    class FirebaseDB {
+        -db: Firestore
+        +getCollection(name: string): CollectionRef
+        +addDocument(collection: string, data: any): Promise~string~
+        +updateDocument(collection: string, docId: string, data: any): Promise~void~
+        +deleteDocument(collection: string, docId: string): Promise~void~
+    }
+
+    class FirebaseAuth {
+        -auth: FirebaseAuth
+        +createUser(email: string, password: string): Promise~User~
+        +signIn(email: string, password: string): Promise~User~
+        +signOut(): Promise~void~
+        +getCurrentUser(): User
+    }
+
+    %% Relationships
+    App --> Header
+    App --> Footer
+    App --> HomePage
+    App --> MedicinesPage
+    App --> LoginPage
+    App --> RegisterPage
+    App --> CartPage
+    App --> OrdersPage
+    App --> ProfilePage
+    App --> AdminPage
+
+    App --> AuthContext
+    App --> CartContext
+
+    AuthContext --> AuthService
+    AuthContext --> User
+    AuthContext --> UserProfile
+
+    CartContext --> CartItem
+    CartContext --> Medicine
+
+    HomePage --> MedicinesAPI
+    HomePage --> Medicine
+
+    MedicinesPage --> MedicinesAPI
+    MedicinesPage --> CartContext
+    MedicinesPage --> Medicine
+
+    LoginPage --> AuthService
+    RegisterPage --> AuthService
+
+    CartPage --> CartContext
+    CartPage --> OrdersAPI
+    CartPage --> Order
+
+    OrdersPage --> OrdersAPI
+    OrdersPage --> Order
+
+    ProfilePage --> UsersAPI
+    ProfilePage --> AuthContext
+    ProfilePage --> User
+
+    AdminPage --> MedicinesAPI
+    AdminPage --> OrdersAPI
+    AdminPage --> UsersAPI
+    AdminPage --> Medicine
+    AdminPage --> Order
+    AdminPage --> User
+
+    MedicinesAPI --> FirebaseDB
+    OrdersAPI --> FirebaseDB
+    UsersAPI --> FirebaseDB
+    AuthService --> FirebaseAuth
+    AuthService --> FirebaseDB
+
+    ExpressServer --> AuthMiddleware
+    ExpressServer --> MedicinesRoute
+    ExpressServer --> OrdersRoute
+    ExpressServer --> AuthRoute
+    ExpressServer --> UsersRoute
+
+    MedicinesRoute --> FirebaseDB
+    OrdersRoute --> FirebaseDB
+    AuthRoute --> FirebaseDB
+    AuthRoute --> FirebaseAuth
+    UsersRoute --> FirebaseDB
+
+    FirebaseDB --> User
+    FirebaseDB --> Medicine
+    FirebaseDB --> Order
+    FirebaseDB --> UserProfile
+
+    FirebaseAuth --> User
+
+    Order --> OrderItem
+    Order --> Address
+    UserProfile --> Address

@@ -1,0 +1,288 @@
+graph TD
+    %% ========== AUTHENTICATION & REGISTRATION ==========
+    Start([👤 Користувач входить на сайт])
+    
+    AuthCheck{Користувач<br/>автентифікований?}
+    
+    %% Login Flow
+    LoginStart["🔐 Сторінка входу"]
+    EnterLoginCreds["Введення email та пароля"]
+    ValidateLoginCreds{Дані<br/>валідні?}
+    LoginError["❌ Показати помилку"]
+    CheckAuth{Облікові дані<br/>правильні?}
+    AuthError["❌ Невірні облікові дані"]
+    LoadUserProfile["📥 Завантажити профіль"]
+    SetAuthContext1["🔑 Встановити Auth Context"]
+    
+    %% Register Flow
+    RegisterStart["📝 Сторінка реєстрації"]
+    EnterRegCreds["Введення email, імені, пароля"]
+    ValidateRegCreds{Дані<br/>валідні?}
+    RegError["❌ Показати помилку"]
+    CheckEmailExists{Email<br/>існує?}
+    EmailExistsError["❌ Email вже зареєстрований"]
+    CreateFirebaseUser["👤 Створити користувача Firebase"]
+    SaveUserData["💾 Зберегти дані в БД"]
+    SendWelcomeEmail["📧 Відправити email"]
+    SetAuthContext2["🔑 Встановити Auth Context"]
+    
+    %% Home Page
+    HomePage["🏠 Головна сторінка"]
+    ViewProducts["👁️ Переглядання товарів"]
+    
+    %% ========== MEDICINES CATALOG ==========
+    SearchMedicines["🔍 Пошук медикаментів"]
+    FilterMedicines["🎯 Фільтрування по категоріям"]
+    ViewDetails["📊 Перегляд деталей товару"]
+    
+    %% ========== SHOPPING CART ==========
+    AddToCart["🛒 Додати до кошика"]
+    UpdateQuantity["🔢 Оновити кількість"]
+    RemoveItem["🗑️ Видалити з кошика"]
+    ViewCart["👁️ Перегляд кошика"]
+    
+    %% ========== CHECKOUT ==========
+    ProceedCheckout["💳 Перейти до оформлення"]
+    CheckInventory{Товари<br/>в наявності?}
+    InventoryError["❌ Товари відсутні"]
+    ReturnCart["↩️ Повернення в кошик"]
+    EnterDeliveryAddr["📍 Введення адреси доставки"]
+    ValidateAddr{Адреса<br/>валідна?}
+    AddrError["❌ Неправильна адреса"]
+    ProcessPayment["💰 Обробка платежу"]
+    PaymentSuccess{Платіж<br/>успішний?}
+    PaymentError["❌ Помилка платежу"]
+    RetryPayment{Повторити?}
+    CreateOrder["📝 Створити замовлення"]
+    SendOrderEmail["📧 Відправити email замовлення"]
+    ClearCart["🧹 Очистити кошик"]
+    OrderSuccess["✅ Замовлення успішне"]
+    
+    %% ========== ORDERS & TRACKING ==========
+    ViewOrders["📋 Переглядання моїх замовлень"]
+    SelectOrder["🔍 Вибір замовлення"]
+    TrackOrder["📍 Відслідження замовлення"]
+    
+    %% ========== PROFILE ==========
+    ViewProfile["👤 Мій профіль"]
+    EditProfile["✏️ Редагування профілю"]
+    ChangePassword["🔑 Зміна пароля"]
+    SaveProfile["💾 Зберегти зміни"]
+    
+    %% ========== ADMIN PANEL ==========
+    AdminAuth{Користувач<br/>адміністратор?}
+    AdminPanel["⚙️ Адмін-панель"]
+    
+    %% Medicine Management
+    ManageMedicines["🏥 Керування медикаментами"]
+    AddMedicine["➕ Додати медикамент"]
+    FillMedForm["📝 Заповнити форму"]
+    ValidateMedForm{Форма<br/>валідна?}
+    MedFormError["❌ Помилка форми"]
+    SaveMedicine["💾 Зберегти медикамент"]
+    
+    EditMedicine["✏️ Редагувати медикамент"]
+    SelectMedicine["🔍 Вибрати медикамент"]
+    UpdateMedicine["🔄 Оновити дані"]
+    
+    DeleteMedicine["🗑️ Видалити медикамент"]
+    ConfirmDelete{Підтвердити<br/>видалення?}
+    RemoveMedicine["🗑️ Видалити з БД"]
+    
+    %% Order Management
+    ManageOrders["📦 Керування замовленнями"]
+    ViewAllOrders["📋 Все замовлення"]
+    UpdateOrderStatus["🔄 Оновити статус"]
+    SelectNewStatus["📌 Вибір нового статусу"]
+    ConfirmStatus{Підтвердити<br/>зміну?}
+    SaveStatus["💾 Зберегти статус"]
+    NotifyCustomer["📧 Сповістити клієнта"]
+    
+    CancelOrder["❌ Скасувати замовлення"]
+    ConfirmCancel{Підтвердити<br/>скасування?}
+    CheckOrderStatus{Замовлення<br/>виконане?}
+    CancelError["❌ Не можна скасувати"]
+    ProcessRefund["💰 Повернення грошей"]
+    SaveCancel["💾 Позначити скасованим"]
+    
+    %% Users Management
+    ManageUsers["👥 Керування користувачами"]
+    ViewAllUsers["📊 Список користувачів"]
+    ViewUserStats["📈 Статистика користувачів"]
+    ViewSystemStats["📊 Загальна статистика"]
+    
+    Logout["🚪 Вихід"]
+    End([✅ Процес завершено])
+    
+    %% ========== CONNECTIONS ==========
+    Start --> AuthCheck
+    
+    %% Authentication Flows
+    AuthCheck -->|Ні| LoginStart
+    LoginStart --> EnterLoginCreds
+    EnterLoginCreds --> ValidateLoginCreds
+    ValidateLoginCreds -->|Ні| LoginError
+    LoginError --> EnterLoginCreds
+    ValidateLoginCreds -->|Так| CheckAuth
+    CheckAuth -->|Ні| AuthError
+    AuthError --> EnterLoginCreds
+    CheckAuth -->|Так| LoadUserProfile
+    LoadUserProfile --> SetAuthContext1
+    
+    AuthCheck -->|Реєстрація| RegisterStart
+    RegisterStart --> EnterRegCreds
+    EnterRegCreds --> ValidateRegCreds
+    ValidateRegCreds -->|Ні| RegError
+    RegError --> EnterRegCreds
+    ValidateRegCreds -->|Так| CheckEmailExists
+    CheckEmailExists -->|Так| EmailExistsError
+    EmailExistsError --> EnterRegCreds
+    CheckEmailExists -->|Ні| CreateFirebaseUser
+    CreateFirebaseUser --> SaveUserData
+    SaveUserData --> SendWelcomeEmail
+    SendWelcomeEmail --> SetAuthContext2
+    
+    SetAuthContext1 --> HomePage
+    SetAuthContext2 --> HomePage
+    AuthCheck -->|Так| HomePage
+    
+    %% Home Page
+    HomePage --> ViewProducts
+    ViewProducts --> SearchMedicines
+    SearchMedicines --> FilterMedicines
+    FilterMedicines --> ViewDetails
+    ViewDetails --> AddToCart
+    
+    %% Shopping Cart Management
+    AddToCart --> ViewCart
+    ViewCart --> UpdateQuantity
+    UpdateQuantity --> ViewCart
+    ViewCart --> RemoveItem
+    RemoveItem --> ViewCart
+    
+    %% Checkout Flow
+    ViewCart --> ProceedCheckout
+    ProceedCheckout --> CheckInventory
+    CheckInventory -->|Ні| InventoryError
+    InventoryError --> ReturnCart
+    ReturnCart --> ViewCart
+    CheckInventory -->|Так| EnterDeliveryAddr
+    EnterDeliveryAddr --> ValidateAddr
+    ValidateAddr -->|Ні| AddrError
+    AddrError --> EnterDeliveryAddr
+    ValidateAddr -->|Так| ProcessPayment
+    ProcessPayment --> PaymentSuccess
+    PaymentSuccess -->|Ні| PaymentError
+    PaymentError --> RetryPayment
+    RetryPayment -->|Так| ProcessPayment
+    RetryPayment -->|Ні| HomePage
+    PaymentSuccess -->|Так| CreateOrder
+    CreateOrder --> SendOrderEmail
+    SendOrderEmail --> ClearCart
+    ClearCart --> OrderSuccess
+    OrderSuccess --> HomePage
+    
+    %% Orders and Tracking
+    HomePage --> ViewOrders
+    HomePage --> ViewProfile
+    HomePage --> AdminAuth
+    ViewOrders --> SelectOrder
+    SelectOrder --> TrackOrder
+    TrackOrder --> HomePage
+    
+    %% Profile Management
+    ViewProfile --> EditProfile
+    EditProfile --> ChangePassword
+    ChangePassword --> SaveProfile
+    SaveProfile --> HomePage
+    
+    %% Admin Functions
+    AdminAuth -->|Ні| Logout
+    AdminAuth -->|Так| AdminPanel
+    
+    AdminPanel --> ManageMedicines
+    AdminPanel --> ManageOrders
+    AdminPanel --> ManageUsers
+    
+    %% Medicine Management
+    ManageMedicines --> AddMedicine
+    ManageMedicines --> EditMedicine
+    ManageMedicines --> DeleteMedicine
+    
+    AddMedicine --> FillMedForm
+    FillMedForm --> ValidateMedForm
+    ValidateMedForm -->|Ні| MedFormError
+    MedFormError --> FillMedForm
+    ValidateMedForm -->|Так| SaveMedicine
+    SaveMedicine --> ManageMedicines
+    
+    EditMedicine --> SelectMedicine
+    SelectMedicine --> FillMedForm
+    FillMedForm --> UpdateMedicine
+    UpdateMedicine --> ManageMedicines
+    
+    DeleteMedicine --> ConfirmDelete
+    ConfirmDelete -->|Ні| ManageMedicines
+    ConfirmDelete -->|Так| RemoveMedicine
+    RemoveMedicine --> ManageMedicines
+    
+    %% Order Management
+    ManageOrders --> ViewAllOrders
+    ManageOrders --> ManageUsers
+    ViewAllOrders --> UpdateOrderStatus
+    ViewAllOrders --> CancelOrder
+    
+    UpdateOrderStatus --> SelectNewStatus
+    SelectNewStatus --> ConfirmStatus
+    ConfirmStatus -->|Ні| ViewAllOrders
+    ConfirmStatus -->|Так| SaveStatus
+    SaveStatus --> NotifyCustomer
+    NotifyCustomer --> ViewAllOrders
+    
+    CancelOrder --> ConfirmCancel
+    ConfirmCancel -->|Ні| ViewAllOrders
+    ConfirmCancel -->|Так| CheckOrderStatus
+    CheckOrderStatus -->|Так| CancelError
+    CancelError --> ViewAllOrders
+    CheckOrderStatus -->|Ні| ProcessRefund
+    ProcessRefund --> SaveCancel
+    SaveCancel --> NotifyCustomer
+    
+    %% Users Management
+    ManageUsers --> ViewAllUsers
+    ManageUsers --> ViewUserStats
+    ViewAllUsers --> ViewSystemStats
+    ViewUserStats --> ViewSystemStats
+    ViewSystemStats --> AdminPanel
+    
+    AdminPanel --> Logout
+    HomePage --> Logout
+    Logout --> End
+    
+    %% Styling
+    style Start fill:#90EE90,stroke:#228B22,stroke-width:3px
+    style End fill:#FFB6C6,stroke:#DC143C,stroke-width:3px
+    style AuthCheck fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style ValidateLoginCreds fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style CheckAuth fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style ValidateRegCreds fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style CheckEmailExists fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style CheckInventory fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style ValidateAddr fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style PaymentSuccess fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style RetryPayment fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style AdminAuth fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style ValidateMedForm fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style ConfirmDelete fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style ConfirmStatus fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style ConfirmCancel fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    style CheckOrderStatus fill:#87CEEB,stroke:#4169E1,stroke-width:2px
+    
+    style ProcessPayment fill:#FFD700,stroke:#FF8C00,stroke-width:2px
+    style CreateOrder fill:#FFD700,stroke:#FF8C00,stroke-width:2px
+    style SaveMedicine fill:#FFD700,stroke:#FF8C00,stroke-width:2px
+    style UpdateMedicine fill:#FFD700,stroke:#FF8C00,stroke-width:2px
+    style RemoveMedicine fill:#FFD700,stroke:#FF8C00,stroke-width:2px
+    style SaveStatus fill:#FFD700,stroke:#FF8C00,stroke-width:2px
+    style ProcessRefund fill:#FFD700,stroke:#FF8C00,stroke-width:2px
+    style SaveCancel fill:#FFD700,stroke:#FF8C00,stroke-width:2px

@@ -1,0 +1,165 @@
+.pharmacies-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.pharmacies-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pharmacies-header h1 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.pharmacies-header p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.city-filter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.city-filter label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.city-filter select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: white;
+}
+
+.pharmacies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.pharmacy-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pharmacy-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.pharmacy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #3498db;
+}
+
+.pharmacy-header h3 {
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.city-badge {
+  background: #3498db;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pharmacy-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #555;
+}
+
+.info-item .icon {
+  color: #3498db;
+  font-size: 1.2rem;
+  min-width: 20px;
+}
+
+.info-item a {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.info-item a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.pharmacy-description {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.pharmacy-description p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.no-pharmacies {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #7f8c8d;
+}
+
+@media (max-width: 768px) {
+  .pharmacies-page {
+    padding: 1rem;
+  }
+
+  .pharmacies-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pharmacy-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .city-badge {
+    align-self: flex-start;
+  }
+}

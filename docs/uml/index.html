@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UML/BPMN/DFD Діаграми - Аптечна система</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f6f8;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .diagrams {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 20px;
+      }
+      .diagram-card {
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      }
+      .diagram-title {
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .diagram-content img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+      .diagram-links {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .diagram-links a {
+        padding: 8px 12px;
+        background: #e9ecef;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #333;
+      }
+      .info {
+        margin-top: 30px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📊 UML, BPMN та DFD діаграми - Аптечна система</h1>
+
+      <div class="diagrams">
+        <div class="diagram-card">
+          <div class="diagram-title">📋 Діаграма класів</div>
+          <div class="diagram-content">
+            <img src="class_diagram.png" alt="Class Diagram" />
+          </div>
+          <div class="diagram-links">
+            <a href="class_diagram.svg" target="_blank">SVG</a>
+            <a href="class_diagram.png" target="_blank">PNG</a>
+            <a href="class_diagram.raw.mmd" target="_blank">Mermaid</a>
+          </div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">🎯 Діаграма прецедентів (Use Case)</div>
+          <div class="diagram-content">
+            <img src="usecase_diagram.png" alt="Use Case Diagram" />
+          </div>
+          <div class="diagram-links">
+            <a href="usecase_diagram.svg" target="_blank">SVG</a>
+            <a href="usecase_diagram.png" target="_blank">PNG</a>
+            <a href="usecase_diagram.raw.mmd" target="_blank">Mermaid</a>
+          </div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">🔄 BPMN (комплексна)</div>
+          <div class="diagram-content">
+            <img src="bpmn_complete.png" alt="BPMN Complete" />
+          </div>
+          <div class="diagram-links">
+            <a href="bpmn_complete.svg" target="_blank">SVG</a>
+            <a href="bpmn_complete.png" target="_blank">PNG</a>
+            <a href="bpmn_complete.raw.mmd" target="_blank">Mermaid</a>
+          </div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">🔎 DFD (Data Flow Diagram)</div>
+          <div class="diagram-content">
+            <img src="dfd_data_flow.png" alt="DFD" />
+          </div>
+          <div class="diagram-links">
+            <a href="dfd_data_flow.svg" target="_blank">SVG</a>
+            <a href="dfd_data_flow.png" target="_blank">PNG</a>
+            <a href="dfd_data_flow.raw.mmd" target="_blank">Mermaid</a>
+          </div>
+        </div>
+
+        <div class="diagram-card">
+          <div class="diagram-title">🧭 IDEF0 (A0 + Level 1)</div>
+          <div class="diagram-content">
+            <img src="idef0_complete.png" alt="IDEF0 Complete" />
+          </div>
+          <div class="diagram-links">
+            <a href="idef0_complete.svg" target="_blank">SVG</a>
+            <a href="idef0_complete.png" target="_blank">PNG</a>
+            <a href="idef0_complete.drawio.xml" target="_blank">draw.io</a>
+            <a href="idef0_complete.raw.mmd" target="_blank">Mermaid</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="info">
+        <h3>📚 Коротко про DFD</h3>
+        <p>
+          DFD показує потоки даних у системі, основні процеси та сховища. У цій
+          діаграмі виділені:
+        </p>
+        <ul>
+          <li>
+            Процеси: перегляд каталогу, кошик, оформлення замовлення, обробка
+            замовлення, авторизація, адмінські операції
+          </li>
+          <li>Сховища даних: Users, Medicines, Orders, Cart</li>
+          <li>Зовнішні сервіси: Payment Gateway, Email Service</li>
+        </ul>
+        <p>
+          Якщо потрібно — можу розбити DFD на рівні (Level 0, Level 1) або
+          додати більше деталей до процесів/потоків.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+flowchart LR
+    %% External Entities (Left)
+    subgraph ExternalEntities["External Entities"]
+        direction TB
+        Customer["👤 Customer (User)"]
+        Admin["👮 Admin"]
+    end
+
+    %% Processes (Center)
+    subgraph Processes["Processes"]
+        direction TB
+        P1(("P1 Browse Catalog\nFrontend - Medicines"))
+        P2(("P2 Manage Cart\nCart Context / Frontend"))
+        P3(("P3 Checkout / Payment\nBackend / Payment Gateway"))
+        P4(("P4 Order Processing\nBackend - Orders"))
+        P5(("P5 Auth & Profile\nFirebase Auth & Users API"))
+        P6(("P6 Admin Management\nMedicines / Orders / Users"))
+    end
+
+    %% External Services (Right)
+    subgraph ExternalServices["External Services"]
+        direction TB
+        PaymentGateway["💳 Payment Gateway"]
+        EmailService["📧 Email Service"]
+    end
+
+    %% Data Stores (Bottom)
+    subgraph DataStores["Data Stores"]
+        direction LR
+        D_Medicines[("D2 Medicines\nFirestore Medicines Collection")]
+        D_Users[("D1 Users\nFirestore Users Collection")]
+        D_Orders[("D3 Orders\nFirestore Orders Collection")]
+        D_Cart[("D4 Cart\nLocal Storage / Session")]
+    end
+
+    %% Flows: Customer -> Browse
+    Customer -->|view catalog / request medicines| P1
+    P1 -->|getMedicines| D_Medicines
+    D_Medicines -->|medicines list| P1
+    P1 -->|show product details| Customer
+
+    %% Add to Cart / Manage Cart
+    Customer -->|add / update / remove| P2
+    P2 -->|persist cart| D_Cart
+    D_Cart -->|cart contents| P2
+    P2 -->|view cart| Customer
+
+    %% Checkout Flow
+    Customer -->|checkout| P3
+    P3 -->|get cart| D_Cart
+    P3 -->|check inventory| D_Medicines
+    D_Medicines -->|inventory status| P3
+    P3 -->|process payment| PaymentGateway
+    PaymentGateway -->|payment result| P3
+
+    %% Order Creation and Updates
+    P3 -->|create order| P4
+    P4 -->|save order| D_Orders
+    P4 -->|decrement stock| D_Medicines
+    P4 -->|send email confirmation| EmailService
+    EmailService --> Customer
+    P4 -->|order created| Customer
+
+    %% Orders - User
+    Customer -->|view orders / track| P4
+    P4 -->|get user orders| D_Orders
+    D_Orders -->|order list| P4
+
+    %% Auth & Profile
+    Customer -->|login / register| P5
+    P5 -->|auth request| D_Users
+    D_Users -->|user profile| P5
+    P5 -->|set auth context| Customer
+
+    %% Admin Flows
+    Admin -->|manage medicines| P6
+    P6 -->|CRUD medicines| D_Medicines
+    P6 -->|view orders| D_Orders
+    P6 -->|manage users| D_Users
+    P6 -->|view stats| D_Orders
+
+    %% Security & Middleware flows
+    P5 -->|token| P3
+    P5 -->|token| P6
+
+    %% Styles
+    classDef external fill:#e0f7fa,stroke:#00796b,stroke-width:1px;
+    classDef process fill:#fff9c4,stroke:#f57f17,stroke-width:1px;
+    classDef datastore fill:#f1f8e9,stroke:#2e7d32,stroke-width:1px;
+    classDef extserv fill:#e8eaf6,stroke:#3949ab,stroke-width:1px;
+
+    class Customer,Admin external
+    class PaymentGateway,EmailService extserv
+    class P1,P2,P3,P4,P5,P6 process
+    class D_Users,D_Medicines,D_Orders,D_Cart datastore
