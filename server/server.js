@@ -16,6 +16,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static assets (зображення, статичні файли)
 app.use(express.static(path.join(__dirname, "public")));
 
+// Disable caching for API routes
+app.use("/api", (req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  next();
+});
+
 // Ініціалізація Firebase
 initializeFirebase();
 
