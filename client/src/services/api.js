@@ -20,6 +20,17 @@ api.interceptors.request.use(
       const token = await user.getIdToken();
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Cache-busting for GET requests in production to avoid stale 304 responses
+    if (config.method === "get") {
+      // add timestamp param to bypass caches
+      config.params = {
+        ...config.params,
+        _t: Date.now(),
+      };
+      config.headers["Cache-Control"] = "no-cache";
+    }
+
     return config;
   },
   (error) => {
