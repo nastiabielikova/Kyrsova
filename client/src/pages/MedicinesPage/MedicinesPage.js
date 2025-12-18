@@ -133,7 +133,7 @@ const MedicinesPage = () => {
             className="filter-select"
           >
             <option value="">Всі категорії</option>
-            {categories.map((category) => (
+            {Array.isArray(categories) && categories.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
@@ -158,7 +158,7 @@ const MedicinesPage = () => {
         </div>
 
         {/* Список медикаментів */}
-        {filteredMedicines.length === 0 ? (
+        {!Array.isArray(filteredMedicines) || filteredMedicines.length === 0 ? (
           <div className="no-results">
             <FaFilter className="no-results-icon" />
             <h3>Медикаменти не знайдено</h3>
