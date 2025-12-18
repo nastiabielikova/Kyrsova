@@ -17,16 +17,20 @@ const PharmaciesPage = () => {
     try {
       setLoading(true);
       const response = await pharmaciesAPI.getAll();
-      setPharmacies(response.data);
+      const pharmsData = Array.isArray(response.data) ? response.data : [];
+      setPharmacies(pharmsData);
     } catch (error) {
       console.error("Помилка завантаження аптек:", error);
       toast.error("Помилка завантаження списку аптек");
+      setPharmacies([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const cities = [...new Set(pharmacies.map((p) => p.city))];
+  const cities = Array.isArray(pharmacies) && pharmacies.length > 0 
+    ? [...new Set(pharmacies.map((p) => p.city))]
+    : [];
 
   const filteredPharmacies =
     selectedCity === "all"

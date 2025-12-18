@@ -75,20 +75,24 @@ const AdminPage = () => {
     try {
       if (activeTab === "medicines") {
         const response = await medicinesAPI.getAll();
-        setMedicines(response.data);
+        setMedicines(Array.isArray(response.data) ? response.data : []);
       } else if (activeTab === "orders") {
         const response = await ordersAPI.getAll();
-        setOrders(response.data);
+        setOrders(Array.isArray(response.data) ? response.data : []);
       } else if (activeTab === "users") {
         const response = await usersAPI.getAll();
-        setUsers(response.data);
+        setUsers(Array.isArray(response.data) ? response.data : []);
       } else if (activeTab === "pharmacies") {
         const response = await pharmaciesAPI.getAll();
-        setPharmacies(response.data);
+        setPharmacies(Array.isArray(response.data) ? response.data : []);
       }
     } catch (error) {
       console.error("Помилка завантаження даних:", error);
       toast.error("Помилка завантаження даних");
+      setMedicines([]);
+      setOrders([]);
+      setUsers([]);
+      setPharmacies([]);
     } finally {
       setLoading(false);
     }

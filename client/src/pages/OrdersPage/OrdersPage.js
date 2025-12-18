@@ -30,10 +30,12 @@ const OrdersPage = () => {
     try {
       setLoading(true);
       const response = await ordersAPI.getAll();
-      setOrders(response.data);
+      const ordersData = Array.isArray(response.data) ? response.data : [];
+      setOrders(ordersData);
     } catch (error) {
       console.error("Помилка завантаження замовлень:", error);
       toast.error("Помилка завантаження замовлень");
+      setOrders([]);
     } finally {
       setLoading(false);
     }
