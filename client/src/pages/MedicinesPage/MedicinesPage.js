@@ -40,10 +40,12 @@ const MedicinesPage = () => {
     try {
       setLoading(true);
       const response = await medicinesAPI.getAll();
-      setMedicines(response.data);
+      const medsData = Array.isArray(response.data) ? response.data : [];
+      setMedicines(medsData);
     } catch (error) {
       console.error("Помилка завантаження медикаментів:", error);
       toast.error("Помилка завантаження медикаментів");
+      setMedicines([]);
     } finally {
       setLoading(false);
     }
@@ -52,9 +54,11 @@ const MedicinesPage = () => {
   const loadCategories = async () => {
     try {
       const response = await medicinesAPI.getCategories();
-      setCategories(response.data);
+      const catsData = Array.isArray(response.data) ? response.data : [];
+      setCategories(catsData);
     } catch (error) {
       console.error("Помилка завантаження категорій:", error);
+      setCategories([]);
     }
   };
 
