@@ -108,6 +108,11 @@ const initializeFirebase = () => {
  * Отримання посилання на Firestore базу даних
  */
 const getDb = () => {
+  // Автоматично ініціалізувати, якщо ще не зроблено
+  if (admin.apps.length === 0) {
+    console.log('⚠️ Firebase не ініціалізовано, ініціалізую зараз...');
+    initializeFirebase();
+  }
   return admin.firestore();
 };
 

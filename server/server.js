@@ -2,12 +2,22 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+
+// ВАЖЛИВО: завантажуємо .env ДО імпорту firebase
+require("dotenv").config({ path: path.join(__dirname, '.env') });
+
 const { initializeFirebase } = require("./config/firebase");
-require("dotenv").config();
 
 // Ініціалізація додатку
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Ініціалізація Firebase ОДРАЗУ (для serverless це критично)
+try {
+  initializeFirebase();
+} catch (error) {
+  console.error("❌ Не вдалося ініціалізувати Firebase:", error.message);
+}
 
 // Middleware
 app.use(cors());
@@ -23,9 +33,6 @@ app.use("/api", (req, res, next) => {
   res.set("Expires", "0");
   next();
 });
-
-// Ініціалізація Firebase
-initializeFirebase();
 
 // Імпорт маршрутів
 const medicinesRoutes = require("./routes/medicines");

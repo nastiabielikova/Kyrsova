@@ -11,6 +11,15 @@ const { body, validationResult } = require("express-validator");
 router.get("/", async (req, res) => {
   try {
     const db = getDb();
+    
+    if (!db) {
+      console.error("❌ Firebase DB не ініціалізовано");
+      return res.status(500).json({ 
+        error: "Помилка підключення до бази даних",
+        details: "Firebase не ініціалізовано" 
+      });
+    }
+    
     const snapshot = await db.collection("pharmacies").orderBy("name").get();
     
     const pharmacies = [];
@@ -23,8 +32,11 @@ router.get("/", async (req, res) => {
 
     res.json(pharmacies);
   } catch (error) {
-    console.error("Помилка отримання аптек:", error);
-    res.status(500).json({ error: "Помилка отримання списку аптек" });
+    console.error("❌ Помилка отримання аптек:", error);
+    res.status(500).json({ 
+      error: "Помилка отримання списку аптек",
+      details: error.message 
+    });
   }
 });
 
