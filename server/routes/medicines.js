@@ -132,6 +132,15 @@ const { body, validationResult } = require("express-validator");
 router.get("/", async (req, res) => {
   try {
     const db = getDb();
+    
+    if (!db) {
+      console.error("❌ Firebase DB не ініціалізовано");
+      return res.status(500).json({ 
+        error: "Помилка підключення до бази даних",
+        details: "Firebase не ініціалізовано" 
+      });
+    }
+    
     const { category, search, inStock } = req.query;
 
     let query = db.collection("medicines");
@@ -165,8 +174,11 @@ router.get("/", async (req, res) => {
 
     res.json(medicines);
   } catch (error) {
-    console.error("Помилка отримання медикаментів:", error);
-    res.status(500).json({ error: "Помилка отримання медикаментів" });
+    console.error("❌ Помилка отримання медикаментів:", error);
+    res.status(500).json({ 
+      error: "Помилка отримання медикаментів",
+      details: error.message 
+    });
   }
 });
 
@@ -309,6 +321,15 @@ router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
 router.get("/categories/list", async (req, res) => {
   try {
     const db = getDb();
+    
+    if (!db) {
+      console.error("❌ Firebase DB не ініціалізовано");
+      return res.status(500).json({ 
+        error: "Помилка підключення до бази даних",
+        details: "Firebase не ініціалізовано" 
+      });
+    }
+    
     const snapshot = await db.collection("medicines").get();
     const categories = new Set();
 
@@ -321,8 +342,11 @@ router.get("/categories/list", async (req, res) => {
 
     res.json(Array.from(categories));
   } catch (error) {
-    console.error("Помилка отримання категорій:", error);
-    res.status(500).json({ error: "Помилка отримання категорій" });
+    console.error("❌ Помилка отримання категорій:", error);
+    res.status(500).json({ 
+      error: "Помилка отримання категорій",
+      details: error.message 
+    });
   }
 });
 
