@@ -2,11 +2,20 @@
   "name": "apteka-system",
   "version": "1.0.0",
   "description": "Система управління аптекою з React та Node.js",
+  "main": "server/server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
+    "start": "node server/server.js",
     "server": "cd server && node server.js",
+    "server:dev": "cd server && npm run dev",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+    "client:build": "cd client && npm run build",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client\"",
+    "build": "cd client && npm install && npm run build",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "postinstall": "cd server && npm install && cd ../client && npm install"
   },
   "keywords": [
     "аптека",

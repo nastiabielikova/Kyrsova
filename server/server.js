@@ -12,7 +12,7 @@ const { initializeFirebase } = require("./config/firebase");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Ініціалізація Firebase ОДРАЗУ (для serverless це критично)
+// Ініціалізація Firebase ОДРАЗУ
 try {
   initializeFirebase();
 } catch (error) {
@@ -23,8 +23,15 @@ try {
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// Serve static assets (зображення, статичні файли)
+
+// Serve static assets (зображення, статичні файли сервера)
 app.use(express.static(path.join(__dirname, "public")));
+
+// У production режимі роздаємо React білд
+if (process.env.NODE_ENV === "production") {
+  const clientBuildPath = path.join(__dirname, "../client/build");
+  app.use(express.static(clientBuildPath));
+}
 
 // Disable caching for API routes
 app.use("/api", (req, res, next) => {
@@ -48,18 +55,34 @@ app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/pharmacies", pharmaciesRoutes);
 
-// Базовий маршрут
-app.get("/", (req, res) => {
+// Health check endpoint для Render
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// Базовий маршрут API
+app.get("/api", (req, res) => {
   res.json({
     message: "API системи аптеки працює",
     version: "1.0.0",
   });
 });
 
-// Обробка помилок 404
-app.use((req, res) => {
-  res.status(404).json({ error: "Маршрут не знайдено" });
-});
+// У production режимі всі інші запити перенаправляємо на React
+if (process.env.NODE_ENV === "production") {
+  const clientBuildPath = path.join(__dirname, "../client/build");
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(clientBuildPath, "index.html"));
+  });
+} else {
+  // В development режимі показуємо інформацію API
+  app.get("/", (req, res) => {
+    res.json({
+      message: "API системи аптеки працює (development)",
+      version: "1.0.0",
+    });
+  });
+}
 
 // Глобальний обробник помилок
 app.use((err, req, res, next) => {
@@ -70,12 +93,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Запуск сервера (тільки в development/локально)
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`🚀 Сервер запущено на порту ${PORT}`);
-    console.log(`📍 http://localhost:${PORT}`);
-  });
-}
+// Запуск сервера
+app.listen(PORT, () => {
+  console.log(`🚀 Сервер запущено на порту ${PORT}`);
+  console.log(`📍 http://localhost:${PORT}`);
+  console.log(`🌍 Режим: ${process.env.NODE_ENV || "development"}`);
+});
 
 module.exports = app;

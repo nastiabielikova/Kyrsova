@@ -202,6 +202,54 @@ cd ../server
 npm start
 ```
 
+## 🚀 Деплой на Render
+
+### Автоматичний деплой через render.yaml
+
+1. **Підключіть репозиторій до Render:**
+   - Зайдіть на [render.com](https://render.com)
+   - Виберіть "New" → "Blueprint"
+   - Підключіть ваш GitHub/GitLab репозиторій
+   - Render автоматично знайде `render.yaml` і створить сервіс
+
+2. **Або створіть сервіс вручну:**
+   - Виберіть "New" → "Web Service"
+   - Підключіть репозиторій
+   - Налаштування:
+     - **Build Command:** `npm run build`
+     - **Start Command:** `npm start`
+     - **Environment:** `Node`
+
+3. **Налаштуйте змінні середовища (Environment Variables):**
+   ```
+   NODE_ENV=production
+   FIREBASE_PROJECT_ID=ваш-project-id
+   FIREBASE_CLIENT_EMAIL=ваш-client-email
+   FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+   ```
+   
+   Або використовуйте base64 варіант:
+   ```
+   FIREBASE_SERVICE_ACCOUNT_BASE64=base64-encoded-json
+   ```
+
+4. **Налаштуйте клієнтські змінні (під час build):**
+   ```
+   REACT_APP_FIREBASE_API_KEY=ваш-api-key
+   REACT_APP_FIREBASE_AUTH_DOMAIN=ваш-project.firebaseapp.com
+   REACT_APP_FIREBASE_PROJECT_ID=ваш-project-id
+   REACT_APP_FIREBASE_STORAGE_BUCKET=ваш-project.appspot.com
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=ваш-sender-id
+   REACT_APP_FIREBASE_APP_ID=ваш-app-id
+   ```
+
+### Особливості деплою на Render
+
+- Сервер роздає React білд як статичні файли
+- API доступне за `/api/*` маршрутами
+- Автоматичний health check на `/api/health`
+- Безкоштовний план доступний (з обмеженнями)
+
 ## 🧪 Заповнення тестових даних (seed)
 
 Скрипт seed додає для тестування приклад користувачів, медикаментів і тестове замовлення у Firestore та створює користувачів у Firebase Auth.
